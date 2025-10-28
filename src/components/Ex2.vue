@@ -1,15 +1,12 @@
 <script>
     // Import BlogPost component
-    import BlogPost from './subcomponents/BlogPost.vue'
+    import blogPost from './subcomponents/BlogPost.vue'
 	import axios from 'axios'
     export default {
         data() {
             return {
                 posts: [] // array of post objects
             }  
-        },
-        components:{
-            BlogPost
         },
         computed: {
             baseUrl() {
@@ -31,15 +28,15 @@
             .catch(error => {
                 this.posts = [{ entry: 'There was an error: ' + error.message }]
             })
+        },
+        components: {
+            blogPost
         }
     }
 </script>
 
 <template>
    <!-- TODO: make use of the 'blog-post' component to display the blog posts -->
-    <BlogPost v-for="post in posts" :id="post.id" :subject="post.subject" :entry="post.entry" :mood="post.mood">
-        
-    </BlogPost>
-    
-</template>
+    <blog-Post :postList="posts"></blog-Post>
 
+</template>

@@ -1,6 +1,6 @@
 <script setup>
     // Import BlogPost component
-    import BlogPost2 from './subcomponents/BlogPost2.vue'
+    import blogPost from './subcomponents/BlogPost2.vue'
 	import axios from 'axios'
 </script>
 
@@ -11,10 +11,6 @@
                 posts: [] // array of post objects
             }  
         },
-        components:{
-            BlogPost2
-        }, 
-
         computed: {
             baseUrl() {
                 if (window.location.hostname == 'localhost')
@@ -39,23 +35,31 @@
         methods: {
             deletePost(id) {
                 // TODO: Complete the delete method
-                try{
-                axios.get(`${this.baseUrl}/deletePost`, {params:{id}})
-                this.posts = this.posts.filter(p => p.id !== id) 
-                }catch(e){
-                    console.error(e)
-                    alert('Failed to delete')
-                }
-
+                axios.get(`${this.baseUrl}/deletePost`, {
+                    params: {
+                        id: id,
+                    }
+                })
+                .then(response=> {
+                        console.log(response.data)
+                        this.posts = this.posts.filter(post => post.id!=id)
+                    }
+                )
                 
-
             }
-        }
+        },
+
     }
 </script>
 
 <template>
    <!-- TODO: make use of the 'blog-post' component to display the blog posts -->
-    <BlogPost2 v-for="post in posts" :mood="post.mood" :entry="post.entry"><button @click="deletePost(post.id)">Delete</button></BlogPost2>
+    
+            <blogPost v-for="post in posts" :key="post.id"
+            :subject="post.subject" 
+            :entry="post.entry" :mood="post.mood"
+            :id="post.id">
+                <button class="btn btn-primary" @click="deletePost(post.id)">Delete</button>
+            </blogPost>
+    
 </template>
-
