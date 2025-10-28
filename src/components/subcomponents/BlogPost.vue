@@ -2,39 +2,34 @@
     export default {
         // Add code if/as necessary
         // Hint: Add properties subject, entry and mood
-        props:{
-            id:Number, 
-            subject: String, 
-            entry: String, 
-            mood: String, 
-        }, 
-        computed:{
-            imgLoc(){
-                return `/assets/${this.mood.toLowerCase()}.png`
+        data() {
+            return {
+                
             }
-        }, 
+        },
 
+        props: {
+            postList: Array,
+        },
 
-    }
+        methods: {
+            moodToLink (mood) {
+                return `/assets/${mood.toLowerCase()}.png`
+            }
+        }
+    };
 </script>
 
 
 <template>
-    <!-- TODO: add your template code here. Use boostrap card --> 
-<div class="card" style="width: 18rem;">
-    <img :src="imgLoc" class="card-img-top" alt="bart simpsons">
-    <div class="card-body">
-    <b><p class="card-text">Blog {{ id}}</p></b>
-    <p class="card-text">{{ entry }}</p>
-  </div>
-</div>
+    <!-- TODO: add your template code here. Use boostrap card -->
+    <div v-for="post in postList" :key="post.id">
+        <div class="card" style="width:18rem">
+            <img class="card-img-top" :src="moodToLink(post.mood)" alt="Card image">
+            <div class="card-body">
+                <h5 class="card-title">{{post.subject}}</h5>
+                <p class="card-text">{{post.entry}}</p>
+            </div>
+        </div>
+    </div>
 </template>
-
-<style scoped>
-
-p {
-    text-align: left;
-}
-
-
-</style>
